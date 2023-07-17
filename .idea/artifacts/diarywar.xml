@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="diarywar">
+    <output-path>$PROJECT_DIR$/out/artifacts/diarywar</output-path>
+    <root id="archive" name="diarywar.war">
+      <element id="artifact" artifact-name="Gradle : com.capstone : Diary-1.0-SNAPSHOT.war (exploded)" />
+    </root>
+  </artifact>
+</component>

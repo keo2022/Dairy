@@ -1,0 +1,76 @@
+a{
+  text-decoration: none;
+  color: black;
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f1f1f1;
+}
+h1 {
+  text-align: center;
+  color: #333;
+}
+p {
+  margin: 10px 0;
+  color: #333;
+}
+#sentenceToCopy {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+#blnakedSentence {
+  font-size: 2em;
+  font-weight: bold;
+}
+label {
+  font-weight: bold;
+  color: #333;
+}
+input[type="text"] {
+  padding: 5px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 1.2em;
+  width: 80%;
+  margin-top: 5px;
+}
+#result {
+  margin-top: 10px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+/*speak 말하기 버튼 조정*/
+.mike {
+  display: flex;
+}
+
+.dictate {
+  width: 80px;
+  height: 35px;
+  font-size: 18px;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+/*제출 버튼*/
+.submitReview {
+  font-size: 30px;
+  border: 1px solid #f1f1f1;
+}
+
+/*오답노트 제출 버튼 조정*/
+.submitWrong {
+  display: flex;
+}
+.addWrong {
+  font-size: 15px;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.button-highlight {
+  font-weight: bold; /* 강조 효과를 주기 위한 배경색 변경 */
+  font-size: 35px;
+}

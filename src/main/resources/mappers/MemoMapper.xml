@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.capstone.diary.mapper.MemoMapper">
+    <select id="getDate" resultType="string">
+        select curdate()
+    </select>
+    <select id="getParentId" resultType="String">
+        select parentId from memo where directoryId = #{directoryId}
+    </select>
+    <select id="getDirectory" resultType="com.capstone.diary.vo.MemoVO">
+        select * from memo where userId = #{userId} and parentId = #{directoryId}
+    </select>
+    <insert id="add">
+        insert into memo (userId, directoryName, parentId)
+        values (#{userId}, #{directoryName}, #{directoryId});
+    </insert>
+    <select id="getContent" resultType="String">
+        select content from memo where directoryId = #{directoryId}
+    </select>
+    <update id="register">
+        update memo
+        set content = #{content}
+        where directoryId = #{directoryId};
+    </update>
+    <update id="studyCount">
+        update memo
+        set recent = now(), studyCount = studyCount + 1
+        where directoryId = #{directoryId};
+    </update>
+    <select id="getReview" resultType="com.capstone.diary.vo.MemoVO">
+        select * from memo where userId = #{userId} and recent IS NOT NULL
+                             and complete = 1 order by recent, studyCount
+    </select>
+    <select id="getDirectoryName" resultType="String">
+        select directoryName from memo where directoryId = #{directoryId}
+    </select>
+    <select id="search" resultType="com.capstone.diary.vo.MemoVO">
+        SELECT directoryId, directoryName,
+            CASE WHEN INSTR(content, "1번") &lt; 15
+            THEN SUBSTRING(content, 1, 30)
+            ELSE SUBSTRING(content, INSTR(content, "1번") - 15, 30)
+            END AS content
+        from memo
+        where content LIKE CONCAT('%', #{word}, '%')
+    </select>
+    <select id="path" resultType="String">
+        WITH RECURSIVE folder_tree(directoryId, parentId, path) AS (
+            -- 자신의 directoryId
+            SELECT directoryId, parentId, CAST(directoryName AS CHAR(200))
+            FROM memo
+            WHERE directoryId = #{directoryId}
+
+            UNION ALL
+
+            -- 부모 폴더 찾기 (parentId가 0인 폴더까지)
+            SELECT f.directoryId, f.parentId, CONCAT(CAST(f.directoryName AS CHAR(200)), '/', ft.path)
+            FROM memo f
+                     JOIN folder_tree ft ON f.directoryId = ft.parentId
+            WHERE ft.parentId != 0
+            )
+            -- 최종 결과: 자신의 위치부터 최상위 폴더까지의 경로
+        SELECT path
+        FROM folder_tree
+        WHERE parentId = 0;
+    </select>
+    <update id="deleteReview">
+        update memo set complete = 0 where directoryId = #{directoryId}
+    </update>
+
+
+
+</mapper>
